@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta de Disponibilidad de Libros</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+        
+        input {
+            width: 300px;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .status {
+            font-weight: bold;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        
+        .disponible {
+            color: green;
+        }
+        
+        .reservado {
+            color: orange;
+        }
+        
+        .prestado {
+            color: red;
+        }
+        
+        .book-card {
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            width: 350px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Consulta de Disponibilidad</h1>
+
+    <input type="text" id="searchInput" placeholder="Buscar por Título o ISBN">
+    <button onclick="checkAvailability()">Consultar</button>
+
+    <div id="result"></div>
+
+    <script src="scriptconsultadisponibilidad.js"></script>
+</body>
+
+</html>

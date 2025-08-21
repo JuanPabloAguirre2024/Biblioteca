@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reserva de Libros</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .libro {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+    .reservado {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+    button {
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📘 Sistema de reserva de libros</h2>
+
+  <div id="listaLibros"></div>
+
+  <script>
+    // Base simulada de libros
+    const libros = [
+      { id: 1, titulo: "El Señor de los Anillos", autor: "J.R.R. Tolkien" },
+      { id: 2, titulo: "La Odisea", autor: "Homero" },
+      { id: 3, titulo: "Ficciones", autor: "Jorge Luis Borges" },
+      { id: 4, titulo: "Crónica de una muerte anunciada", autor: "Gabriel García Márquez" },
+      { id: 5, titulo: "Pedro Páramo", autor: "Juan Rulfo" }
+    ];
+
+    // Cargar reservas desde localStorage o iniciar vacío
+    let librosReservados = JSON.parse(localStorage.getItem('librosReservados')) || [];
+
+    function mostrarLibros() {
+      const contenedor = document.getElementById('listaLibros');
+      contenedor.innerHTML = '';
+
+      libros.forEach(libro => {
+        const estaReservado = librosReservados.includes(libro.id);
+
+        const div = document.createElement('div');
+        div.className = `libro ${estaReservado ? 'reservado' : ''}`;
+
+        div.innerHTML = `
+          <strong>${libro.titulo}</strong><br>
+          <em>${libro.autor}</em><br>
+          Estado: ${estaReservado ? 'Reservado' : 'Disponible'}<br>
+          ${!estaReservado ? `<button onclick="reservarLibro(${libro.id})">Reservar</button>` : ''}
+        `;
+
+        contenedor.appendChild(div);
+      });
+    }
+
+    function reservarLibro(id) {
+      if (!librosReservados.includes(id)) {
+        librosReservados.push(id);
+        localStorage.setItem('librosReservados', JSON.stringify(librosReservados));
+        mostrarLibros();
+      }
+    }
+
+    // Mostrar los libros al cargar
+    mostrarLibros();
+  </script>
+
+</body>
+</html>

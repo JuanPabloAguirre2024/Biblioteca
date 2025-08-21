@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Libros</title>
+  <style>
+    body { font-family: Arial; max-width: 800px; margin: auto; }
+    input, textarea, select { width: 100%; margin: 5px 0; padding: 5px; }
+    .libro { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+    img { max-width: 100px; display: block; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+  <h1>Gestión de Libros</h1>
+
+  <form id="libroForm">
+    <input type="hidden" id="libroId">
+    <label>Título: <input type="text" id="titulo" required></label>
+    <label>Autor: <input type="text" id="autor" required></label>
+    <label>Sinopsis: <textarea id="sinopsis" required></textarea></label>
+    <label>Portada: <input type="file" id="portada" accept="image/*"></label>
+    <label>Estado:
+      <select id="estado">
+        <option value="disponible">Disponible</option>
+        <option value="prestado">Prestado</option>
+        <option value="reservado">Reservado</option>
+      </select>
+    </label>
+    <button type="submit">Guardar Libro</button>
+  </form>
+
+  <hr>
+
+  <h2>Catálogo</h2>
+  <div id="catalogo"></div>
+
+  <script>
+    let libros = JSON.parse(localStorage.getItem("libros") || "[]");
+
+    const libroForm = document.getElementById("libroForm");
+    const catalogo = document.getElementById("catalogo");
+    const portadaInput = document.getElementById("portada");
+
+    libroForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const id = document.getElementById("libroId").value;
+      const titulo = document.getElementById("titulo").value;
+      const autor = document.getElementById("autor").value;
+      const sinopsis = document.getElementById("sinopsis").value;
+      const estado = document.getElementById("estado").value;
+
+      const guardarLibro = (portadaBase64) => {
+        if (id) {
+          // Editar
+          const libro = libros.find(l => l.id == id);
+          Object.assign(libro, { titulo, autor, sinopsis, estado });
+          if (portadaBase64) libro.portada = portadaBase64;
+        } else {
+          // Añadir
+          const nuevoLibro = {
+            id: Date.now(),
+            titulo,
+            autor,
+            sinopsis,
+            estado,
+            portada: portadaBase64 || ""
+          };
+          libros.push(nuevoLibro);
+        }
+
+        localStorage.setItem("libros", JSON.stringify(libros));
+        libroForm.reset();
+        document.getElementById("libroId").value = "";
+        renderLibros();
+      };
+
+      // Leer portada si se sube una
+      const file = portadaInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          guardarLibro(e.target.result);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        guardarLibro(); // Sin nueva portada
+      }
+    });
+
+    function renderLibros() {
+      catalogo.innerHTML = "";
+      libros.forEach(libro => {
+        const div = document.createElement("div");
+        div.className = "libro";
+
+        div.innerHTML = `
+          ${libro.portada ? `<img src="${libro.portada}">` : ""}
+          <strong>${libro.titulo}</strong> - ${libro.autor} <br>
+          <em>${libro.estado}</em>
+          <p>${libro.sinopsis}</p>
+          <button onclick="editarLibro(${libro.id})">Editar</button>
+          <button onclick="eliminarLibro(${libro.id})">Eliminar</button>
+        `;
+
+        catalogo.appendChild(div);
+      });
+    }
+
+    window.editarLibro = function (id) {
+      const libro = libros.find(l => l.id === id);
+      document.getElementById("libroId").value = libro.id;
+      document.getElementById("titulo").value = libro.titulo;
+      document.getElementById("autor").value = libro.autor;
+      document.getElementById("sinopsis").value = libro.sinopsis;
+      document.getElementById("estado").value = libro.estado;
+    };
+
+    window.eliminarLibro = function (id) {
+      if (confirm("¿Eliminar este libro?")) {
+        libros = libros.filter(l => l.id !== id);
+        localStorage.setItem("libros", JSON.stringify(libros));
+        renderLibros();
+      }
+    };
+
+    renderLibros();
+  </script>
+
+</body>
+</html>

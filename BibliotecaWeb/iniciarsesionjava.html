@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar Sesión</title>
+</head>
+<body>
+  <h2>Inicio de sesión</h2>
+  <form id="loginForm">
+    <label for="cedula">Cédula:</label><br>
+    <input type="text" id="cedula" name="cedula"><br><br>
+
+    <label for="contrasena">Contraseña:</label><br>
+    <input type="password" id="contrasena" name="contrasena"><br><br>
+
+    <button type="submit">Iniciar sesión</button>
+  </form>
+
+  <p id="mensaje" style="color:red;"></p>
+
+  <script>
+    // Simulamos una base de datos con un usuario
+    const usuarioValido = {
+      cedula: '1234567890',
+      contrasena: 'clave123'
+    };
+
+    // Capturamos el formulario
+    const form = document.getElementById('loginForm');
+    const mensaje = document.getElementById('mensaje');
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault(); // Evita que el formulario se envíe
+
+      const cedula = document.getElementById('cedula').value.trim();
+      const contrasena = document.getElementById('contrasena').value.trim();
+
+      // Validación de campos vacíos
+      if (cedula === '' || contrasena === '') {
+        mensaje.textContent = 'Por favor, complete todos los campos.';
+        return;
+      }
+
+      // Validar contra datos simulados
+      if (cedula === usuarioValido.cedula && contrasena === usuarioValido.contrasena) {
+        // Guardamos la "sesión" en localStorage
+        localStorage.setItem('usuario', JSON.stringify({ cedula }));
+        // Redirigir al dashboard
+        window.location.href = 'visualizaciondelcatalogojava.html';
+      } else {
+        mensaje.style.color = 'red';
+        mensaje.textContent = 'Cédula o contraseña incorrecta.';
+      }
+    });
+  </script>
+</body>
+</html>

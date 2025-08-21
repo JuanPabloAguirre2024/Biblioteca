@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Catálogo de Libros</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        
+        .filters,
+        .sort,
+        .pagination {
+            margin-bottom: 15px;
+        }
+        
+        .book-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .book-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .book-card h3 {
+            margin: 0 0 10px;
+        }
+        
+        .book-card p {
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+        
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Catálogo de Libros</h1>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" href="prestamosenlineajava.html">Prestamos en linea</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="reservalibrojava.html">Reserva libro</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="notificacionesyrecordatoriosjava.html">Notificaciones y recordatorios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="historialprestamosjava.html">Historia prestamo</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="busquedaavanzadalibrosjava.html">Busqueda avanzada libros</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="consultadisponibilidadjava.html">Consulta de disponibilidad libros</a>
+            </li>
+          </ul>
+          </div>
+      </nav>
+
+    <div class="filters">
+        <label>Categoría:
+      <select id="filter-category">
+        <option value="">Todos</option>
+        <option value="">Infántiles</option>
+        <option value="">Literatura</option>
+        <option value="">Arte</option>
+        <option value="">Cocina</option>
+      </select>
+    </label>
+        <label>Autor:
+      <select id="filter-author">
+        <option value="">Todos</option>
+        <option value="">Gabriel Garcia Marquez</option>
+        <option value="">Miguel de Cervantes</option>
+        <option value="">Santiago Posteguillo</option>
+        <option value="">Carmen Mola</option>
+      </select>
+    </label>
+        <label>Género:
+      <select id="filter-genre">
+        <option value="">Todos</option>
+        <option value="">Romántica</option>
+        <option value="">Fantasia</option>
+        <option value="">Ciencia ficción</option>
+        <option value="">Aventura</option>
+      </select>
+    </label>
+    </div>
+
+    <div class="sort">
+        Ordenar por:
+        <select id="sort-field">
+      <option value="title">Título</option>
+      <option value="author">Autor</option>
+      <option value="year">Año</option>
+    </select>
+        <select id="sort-dir">
+      <option value="asc">Ascendente</option>
+      <option value="desc">Descendente</option>
+    </select>
+    </div>
+
+    <div class="book-list" id="book-list"></div>
+
+    <div class="pagination">
+        <button id="prev-page">Anterior</button>
+        <span id="page-info"></span>
+        <button id="next-page">Siguiente</button>
+    </div>
+
+    <script src="scriptvisualizaciondecatalogo.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Usuarios</title>
+  <style>
+    body { font-family: Arial; max-width: 800px; margin: auto; }
+    .usuario { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+    .perfil { border: 2px solid #007bff; padding: 10px; margin: 20px 0; }
+    button { margin: 5px 5px 5px 0; }
+  </style>
+</head>
+<body>
+
+  <h1>Gestión de Usuarios</h1>
+
+  <div id="listaUsuarios"></div>
+
+  <div id="perfilUsuario" style="display:none;">
+    <h2>Perfil de Usuario</h2>
+    <form id="perfilForm">
+      <input type="hidden" id="perfilId">
+      <label>Nombre: <input type="text" id="perfilNombre" required></label><br>
+      <label>Email: <input type="email" id="perfilEmail" required></label><br>
+      <label>Estado: 
+        <select id="perfilEstado">
+          <option value="activo">Activo</option>
+          <option value="bloqueado">Bloqueado</option>
+        </select>
+      </label><br>
+      <button type="submit">Guardar Cambios</button>
+      <button type="button" onclick="cerrarPerfil()">Cerrar</button>
+    </form>
+
+    <h3>Historial de Préstamos</h3>
+    <ul id="historialPrestamos"></ul>
+  </div>
+
+  <script>
+    // Simulamos algunos usuarios con historial si no hay en localStorage
+    if (!localStorage.getItem("usuarios")) {
+      const usuariosIniciales = [
+        {
+          id: 1,
+          nombre: "Juan Pérez",
+          email: "juan@example.com",
+          estado: "activo",
+          prestamos: [
+            { libro: "El Quijote", fecha: "2025-07-01" },
+            { libro: "Cien años de soledad", fecha: "2025-08-10" }
+          ]
+        },
+        {
+          id: 2,
+          nombre: "Ana Gómez",
+          email: "ana@example.com",
+          estado: "bloqueado",
+          prestamos: []
+        }
+      ];
+      localStorage.setItem("usuarios", JSON.stringify(usuariosIniciales));
+    }
+
+    let usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
+
+    const listaUsuarios = document.getElementById("listaUsuarios");
+    const perfilDiv = document.getElementById("perfilUsuario");
+    const perfilForm = document.getElementById("perfilForm");
+    const historialList = document.getElementById("historialPrestamos");
+
+    function renderUsuarios() {
+      listaUsuarios.innerHTML = "";
+      usuarios.forEach(usuario => {
+        const div = document.createElement("div");
+        div.className = "usuario";
+        div.innerHTML = `
+          <strong>${usuario.nombre}</strong> (${usuario.email}) - 
+          Estado: <b>${usuario.estado}</b><br>
+          <button onclick="verPerfil(${usuario.id})">Ver / Editar Perfil</button>
+          <button onclick="toggleEstado(${usuario.id})">
+            ${usuario.estado === "activo" ? "Bloquear" : "Desbloquear"}
+          </button>
+        `;
+        listaUsuarios.appendChild(div);
+      });
+    }
+
+    function verPerfil(id) {
+      const usuario = usuarios.find(u => u.id === id);
+      document.getElementById("perfilId").value = usuario.id;
+      document.getElementById("perfilNombre").value = usuario.nombre;
+      document.getElementById("perfilEmail").value = usuario.email;
+      document.getElementById("perfilEstado").value = usuario.estado;
+
+      // Mostrar historial
+      historialList.innerHTML = "";
+      if (usuario.prestamos.length === 0) {
+        historialList.innerHTML = "<li>No hay préstamos registrados</li>";
+      } else {
+        usuario.prestamos.forEach(p => {
+          const li = document.createElement("li");
+          li.textContent = `${p.libro} - ${p.fecha}`;
+          historialList.appendChild(li);
+        });
+      }
+
+      perfilDiv.style.display = "block";
+    }
+
+    perfilForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const id = parseInt(document.getElementById("perfilId").value);
+      const nombre = document.getElementById("perfilNombre").value;
+      const email = document.getElementById("perfilEmail").value;
+      const estado = document.getElementById("perfilEstado").value;
+
+      const usuario = usuarios.find(u => u.id === id);
+      Object.assign(usuario, { nombre, email, estado });
+
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+      renderUsuarios();
+      cerrarPerfil();
+    });
+
+    function cerrarPerfil() {
+      perfilDiv.style.display = "none";
+      perfilForm.reset();
+    }
+
+    function toggleEstado(id) {
+      const usuario = usuarios.find(u => u.id === id);
+      usuario.estado = usuario.estado === "activo" ? "bloqueado" : "activo";
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+      renderUsuarios();
+    }
+
+    renderUsuarios();
+  </script>
+
+</body>
+</html>

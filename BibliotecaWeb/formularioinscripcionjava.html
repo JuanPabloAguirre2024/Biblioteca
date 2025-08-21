@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro de Usuario</title>
+  <style>
+    body { font-family: Arial; max-width: 600px; margin: auto; padding: 20px; }
+    input { width: 100%; margin: 5px 0 15px; padding: 8px; }
+    label { font-weight: bold; }
+    button { padding: 10px 15px; }
+    .mensaje { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+
+  <h1>Registro de Usuario</h1>
+
+  <form id="registroForm">
+    <label>Nombre Completo</label>
+    <input type="text" id="nombre" required>
+
+    <label>Identificación</label>
+    <input type="text" id="identificacion" required>
+
+    <label>Dirección</label>
+    <input type="text" id="direccion" required>
+
+    <label>Teléfono</label>
+    <input type="tel" id="telefono" required>
+
+    <label>Correo Electrónico</label>
+    <input type="email" id="correo" required>
+
+    <label>Contraseña</label>
+    <input type="password" id="contrasena" required minlength="6">
+
+    <button type="submit">Registrar</button>
+  </form>
+
+  <div id="mensaje" class="mensaje"></div>
+
+  <script>
+    const registroForm = document.getElementById("registroForm");
+    const mensaje = document.getElementById("mensaje");
+
+    // Cargar usuarios existentes (si hay)
+    let usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
+
+    registroForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const nombre = document.getElementById("nombre").value.trim();
+      const identificacion = document.getElementById("identificacion").value.trim();
+      const direccion = document.getElementById("direccion").value.trim();
+      const telefono = document.getElementById("telefono").value.trim();
+      const correo = document.getElementById("correo").value.trim().toLowerCase();
+      const contrasena = document.getElementById("contrasena").value;
+
+      // Validar si el correo ya está registrado
+      const yaExiste = usuarios.some(u => u.correo === correo);
+      if (yaExiste) {
+        mensaje.textContent = "Este correo ya está registrado.";
+        mensaje.className = "error";
+        return;
+      }
+
+      const nuevoUsuario = {
+        id: Date.now(),
+        nombre,
+        identificacion,
+        direccion,
+        telefono,
+        correo,
+        contrasena // ⚠️ En una app real, ¡NO almacenar contraseñas sin cifrar!
+      };
+
+      usuarios.push(nuevoUsuario);
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+      mensaje.textContent = "Usuario registrado correctamente.";
+      mensaje.className = "mensaje";
+      registroForm.reset();
+    });
+  </script>
+
+</body>
+</html>

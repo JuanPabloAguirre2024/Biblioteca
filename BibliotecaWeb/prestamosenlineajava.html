@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Préstamos de Libros en Línea</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .libro {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 5px;
+    }
+    .prestado {
+      background-color: #f8d7da;
+      color: #721c24;
+      text-decoration: line-through;
+    }
+    button {
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📚 Préstamo de Libros en Línea</h1>
+
+  <div id="listaLibros"></div>
+
+  <script>
+    // Base de datos simulada de libros
+    const libros = [
+      { id: 1, titulo: "Cien Años de Soledad", autor: "Gabriel García Márquez" },
+      { id: 2, titulo: "1984", autor: "George Orwell" },
+      { id: 3, titulo: "Don Quijote de la Mancha", autor: "Miguel de Cervantes" },
+      { id: 4, titulo: "El Principito", autor: "Antoine de Saint-Exupéry" },
+      { id: 5, titulo: "Rayuela", autor: "Julio Cortázar" }
+    ];
+
+    // Recuperar libros prestados desde localStorage o iniciar vacío
+    let librosPrestados = JSON.parse(localStorage.getItem('librosPrestados')) || [];
+
+    // Función para renderizar los libros
+    function mostrarLibros() {
+      const contenedor = document.getElementById('listaLibros');
+      contenedor.innerHTML = ''; // Limpiar antes de volver a mostrar
+
+      libros.forEach(libro => {
+        const libroDiv = document.createElement('div');
+        libroDiv.className = 'libro';
+
+        const estaPrestado = librosPrestados.includes(libro.id);
+
+        libroDiv.innerHTML = `
+          <strong>${libro.titulo}</strong><br>
+          <em>${libro.autor}</em><br>
+          Estado: ${estaPrestado ? '<span class="prestado">Prestado</span>' : 'Disponible'}
+          <br>
+          ${!estaPrestado ? `<button onclick="prestarLibro(${libro.id})">Prestar</button>` : ''}
+        `;
+
+        contenedor.appendChild(libroDiv);
+      });
+    }
+
+    // Función para prestar un libro
+    function prestarLibro(id) {
+      if (!librosPrestados.includes(id)) {
+        librosPrestados.push(id);
+        localStorage.setItem('librosPrestados', JSON.stringify(librosPrestados));
+        mostrarLibros();
+      }
+    }
+
+    // Mostrar los libros al cargar la página
+    mostrarLibros();
+  </script>
+
+</body>
+</html>

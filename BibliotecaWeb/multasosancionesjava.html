@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Multas por Atraso</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f0f0f0;
+        }
+        
+        .multa {
+            color: red;
+            font-weight: bold;
+        }
+        
+        .saldo {
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Multas por Atraso</h1>
+    <p><strong>Usuario:</strong> usuario1</p>
+
+    <div class="saldo" id="saldo"></div>
+
+    <h2>📋 Historial de Sanciones</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Fecha de Vencimiento</th>
+                <th>Fecha de Devolución</th>
+                <th>Días de Atraso</th>
+                <th>Multa</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-multas"></tbody>
+    </table>
+
+    <script src="scriptmultasosanciones.js"></script>
+</body>
+
+</html>

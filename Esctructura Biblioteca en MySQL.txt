@@ -1,0 +1,63 @@
+CREATE DATABASE BibliotecaDB;
+USE BibliotecaDB;
+
+CREATE TABLE Autores (
+    id_autor INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    nacionalidad VARCHAR(50)
+);
+
+CREATE TABLE Categorias (
+    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Libros (
+    id_libro INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(200) NOT NULL,
+    id_autor INT,
+    id_categoria INT,
+    anio_publicacion YEAR,
+    cantidad_disponible INT DEFAULT 0,
+    FOREIGN KEY (id_autor) REFERENCES Autores(id_autor),
+    FOREIGN KEY (id_categoria) REFERENCES Categorias(id_categoria)
+);
+
+CREATE TABLE Usuarios (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    direccion VARCHAR(150),
+    telefono VARCHAR(20),
+    email VARCHAR(100)
+);
+
+CREATE TABLE Prestamos (
+    id_prestamo INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT,
+    id_libro INT,
+    fecha_prestamo DATE NOT NULL,
+    fecha_devolucion DATE,
+    devuelto BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario),
+    FOREIGN KEY (id_libro) REFERENCES Libros(id_libro)
+);
+
+INSERT INTO Autores (nombre, nacionalidad) VALUES 
+('Gabriel García Márquez', 'Colombiano'),
+('Isabel Allende', 'Chilena');
+
+INSERT INTO Categorias (nombre) VALUES 
+('Novela'), ('Ciencia Ficción'), ('Historia');
+
+INSERT INTO Libros (titulo, id_autor, id_categoria, anio_publicacion, cantidad_disponible) VALUES
+('Cien años de soledad', 1, 1, 1967, 5),
+('La casa de los espíritus', 2, 1, 1982, 3);
+
+INSERT INTO Usuarios (nombre, direccion, telefono, email) VALUES
+('Juan Pérez', 'Calle Falsa 123', '555-1234', 'juan@example.com'),
+('María Gómez', 'Av. Siempre Viva 742', '555-5678', 'maria@example.com');
+
+ALTER TABLE Libros 
+ADD sinopsis TEXT,
+ADD portada VARCHAR(255),
+ADD estado ENUM('disponible', 'prestado', 'reservado') DEFAULT 'disponible';

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Recordatorios de Libros</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .libro {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+    .vencido {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    .proximo {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+    .aTiempo {
+      background-color: #d4edda;
+      color: #155724;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📚 Libros Prestados con Recordatorios</h2>
+
+  <div id="listaLibros"></div>
+
+  <script>
+    // Simulación de libros prestados
+    const prestamos = [
+      { id: 1, titulo: "1984", autor: "George Orwell", fechaVencimiento: "2025-08-25" },
+      { id: 2, titulo: "Cien Años de Soledad", autor: "G.G. Márquez", fechaVencimiento: "2025-08-22" },
+      { id: 3, titulo: "La Sombra del Viento", autor: "Carlos Ruiz Zafón", fechaVencimiento: "2025-08-30" }
+    ];
+
+    // Mostrar libros con estado del préstamo
+    function mostrarLibros() {
+      const contenedor = document.getElementById('listaLibros');
+      contenedor.innerHTML = '';
+
+      const hoy = new Date();
+
+      prestamos.forEach(libro => {
+        const vencimiento = new Date(libro.fechaVencimiento);
+        const tiempoRestante = Math.ceil((vencimiento - hoy) / (1000 * 60 * 60 * 24)); // en días
+
+        let claseEstado = 'aTiempo';
+        let estado = `Vence en ${tiempoRestante} día(s)`;
+
+        if (tiempoRestante <= 3 && tiempoRestante > 0) {
+          claseEstado = 'proximo';
+          estado = `⚠️ Vence pronto (${tiempoRestante} día(s))`;
+        } else if (tiempoRestante <= 0) {
+          claseEstado = 'vencido';
+          estado = `❌ Vencido el ${libro.fechaVencimiento}`;
+        }
+
+        const div = document.createElement('div');
+        div.className = `libro ${claseEstado}`;
+        div.innerHTML = `
+          <strong>${libro.titulo}</strong><br>
+          <em>${libro.autor}</em><br>
+          Fecha de vencimiento: ${libro.fechaVencimiento}<br>
+          Estado: ${estado}
+        `;
+
+        contenedor.appendChild(div);
+      });
+    }
+
+    mostrarLibros();
+  </script>
+
+</body>
+</html>

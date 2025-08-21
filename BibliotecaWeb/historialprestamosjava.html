@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Préstamos</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f0f0f0;
+        }
+        
+        .devuelto {
+            color: green;
+            font-weight: bold;
+        }
+        
+        .prestado {
+            color: orange;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Historial de Préstamos</h1>
+    <p><strong>Usuario:</strong> usuario1</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Fecha de préstamo</th>
+                <th>Fecha de devolución</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody id="historial-body"></tbody>
+    </table>
+
+    <script src="scripthistorialprestamos.js"></script>
+</body>
+
+</html>

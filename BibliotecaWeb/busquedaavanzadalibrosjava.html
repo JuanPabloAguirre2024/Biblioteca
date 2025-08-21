@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Búsqueda Avanzada de Libros</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+        
+        input,
+        select {
+            margin: 5px 0;
+            padding: 5px;
+            width: 100%;
+        }
+        
+        .search-group {
+            max-width: 300px;
+            margin-bottom: 10px;
+        }
+        
+        .book-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Búsqueda Avanzada de Libros</h1>
+
+    <div class="search-group">
+        <label for="search-title">Título:</label>
+        <input type="text" id="search-title" placeholder="Ej. Cien Años de Soledad">
+    </div>
+
+    <div class="search-group">
+        <label for="search-author">Autor:</label>
+        <input type="text" id="search-author" placeholder="Ej. Gabriel García Márquez">
+    </div>
+
+    <div class="search-group">
+        <label for="search-isbn">ISBN:</label>
+        <input type="text" id="search-isbn" placeholder="Ej. 978-3-16-148410-0">
+    </div>
+
+    <div class="search-group">
+        <label for="search-subject">Tema:</label>
+        <input type="text" id="search-subject" placeholder="Ej. Realismo Mágico">
+    </div>
+
+    <div class="search-group">
+        <label for="search-publisher">Editorial:</label>
+        <input type="text" id="search-publisher" placeholder="Ej. Sudamericana">
+    </div>
+
+    <button onclick="searchBooks()">Buscar</button>
+
+    <h2>Resultados:</h2>
+    <div id="results"></div>
+
+    <script src="scriptbusqedaavanzadalibros.js"></script>
+</body>
+
+</html>
