@@ -1,18 +1,43 @@
 {
-  "name": "node-15-minutos",
-  "version": "1.0.0",
-  "description": "aprendiendo node en 15 minutos",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "juan pablo aguirre web",
-  "license": "MIT",
-  "dependencies": {
-    "express": "^5.1.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.10"
-  }
+    "name": "@types/mysql",
+    "version": "2.15.27",
+    "description": "TypeScript definitions for mysql",
+    "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/mysql",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": " William Johnston",
+            "githubUsername": "wjohnsto",
+            "url": "https://github.com/wjohnsto"
+        },
+        {
+            "name": "Krittanan Pingclasai",
+            "githubUsername": "kpping",
+            "url": "https://github.com/kpping"
+        },
+        {
+            "name": "James Munro",
+            "githubUsername": "jdmunro",
+            "url": "https://github.com/jdmunro"
+        },
+        {
+            "name": "Sanders DeNardi",
+            "githubUsername": "sedenardi",
+            "url": "https://github.com/sedenardi"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/mysql"
+    },
+    "scripts": {},
+    "dependencies": {
+        "@types/node": "*"
+    },
+    "peerDependencies": {},
+    "typesPublisherContentHash": "56b42063bef75d5f10c7af46a786f929a78ec2156dce594aeaabf3eff403dc43",
+    "typeScriptVersion": "5.0"
 }
