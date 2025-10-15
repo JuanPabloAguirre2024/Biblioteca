@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const database = require("./database");
+const cors = require("cors")
 
 //Configuración inicial
 const app = express();
@@ -9,41 +10,22 @@ app.listen(app.get("port"));
 console.log("Escuchando comunicaciones al puerto"+app.get("port"));
 
 //Middlewarses
+app.use(cors({
+    origin: ["http://127.0.0.1:5501","http://127.0.0.1:5000"]
+}))
 app.use(morgan("dev"));
 
 
 //Rutas
 app.get("/libros", async (req,res) =>{
-  res.json([
-    {
-      id:1,
-      nombre: "Cien años de soledad",
-      precio: 80000,
-    },
-    {
-      id:2,
-      nombre: "El insomio",
-      precio: 50000,
-    },
-    {
-      id:3,
-      nombre: "El principito",
-      precio: 70000,
-    },
-    {
-      id:4,
-      nombre: "Crónica de una muerte anunciada",
-      precio: 150000,
-    },
-    {
-      id:5,
-      nombre: "Hasta que la muerte nos separe",
-      precio: 30000,
-    },
-    {
-      id:6,
-      nombre: "La Odisea",
-      precio: 200000,
-    }  
-  ])
+  const connection = await database.getConnection();
+  const result = await connection.query("SELECT * from libro");
+  res.json(result)
  })
+ app.post("/libro/prestar", async (req, res) => {
+   if(req.body.length > 0){
+     return res.sendStatus(400);
+   }
+   res.sendStatus()
+ })
+
